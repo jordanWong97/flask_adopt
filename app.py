@@ -1,6 +1,6 @@
 """Flask app for adopt app."""
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Pet
 from forms import AddPetForm
@@ -30,7 +30,7 @@ def show_index():
 
     pets = Pet.query.all()
 
-    return render_template('index.html', pets = pets)
+    return render_template('index.html', pets=pets)
 
 
 @app.route("/add", methods=["GET", "POST"])
@@ -42,13 +42,18 @@ def add_pet():
     if form.validate_on_submit():
         name = form.name.data
         species = form.species.data
-        photo = form.photo_url.data
+        photo_url = form.photo_url.data
         age = form.age.data
         notes = form.notes.data
-        # do stuff with data/insert to db
+
+        pet = Pet(name=name, species=species,
+                  photo_url=photo_url, age=age, notes=notes)
+
+        db.session.add(pet)
+        db.session.commit()
 
         flash(f"{name} is up for adoption :(")
-        return redirect("/add")
+        return redirect("/")
 
     else:
         return render_template(
