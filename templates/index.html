@@ -11,14 +11,15 @@
     {% for pet in pets %}
 
     <div class="col-sm-4">
-      <img src="{{pet.photo_url}}" alt="">
-      <p class="text-success">{{pet.name}}</p><p> {% if pet.available %} <b>is available</b> {% endif %}</p>
+      <img class="img-thumbnail img-fluid max-width: 200px" src="{{pet.photo_url}}" alt="">
+      <p class="text-success"><a href="/{{pet.id}}">{{pet.name}}</a></p>
+      <p> {% if pet.available %} <b>is available</b> {% endif %}</p>
     </div>
 
     {% endfor %}
-    <div class="d-grid gap-2 col-3 mx-auto">
-    <a class="btn btn-primary" href="/add">Add Pet</a>
-    </div>
+    <form>
+      <button class="btn btn-primary" formaction="/add" formmethod="GET">Add Pet</button>
+    </form>
   </div>
 </div>
 
