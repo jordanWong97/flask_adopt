@@ -1,13 +1,15 @@
 """Flask app for adopt app."""
 
+import os
 from flask import Flask, render_template, redirect, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, Pet
 from forms import AddPetForm, EditPetForm
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = "secret"
+app.config['SECRET_KEY'] = os.environ['PETFINDER_SECRET_KEY']
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///adopt"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
